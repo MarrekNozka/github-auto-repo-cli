@@ -5,7 +5,7 @@ both in GitHub and locally in your chosen path.
 
 ## Installation
 
-The only thing you need to install is the
+You need to install the
 [PyGithub](https://github.com/PyGithub/PyGithub) package.
 
 ```terminal
@@ -18,51 +18,35 @@ or:
 pip install PyGithub
 ```
 
+... and [`fzy`](https://github.com/jhawthorn/fzy) and `git`.
+
 ## Usage
 
 1. After cloning the project:
 
-* edit `credentials.py`:
+* create [GitHub toke](https://github.com/settings/tokens) and edit `config.py`:
 
   ```python
-  github_username = 'miLkBoi2'
-  github_password = '1234helpme56'
+  github_token = "ghp_.........................."
   ```
 
 * and add your credentials.
 
-2. Then, just run `python3 app.py`
+2. Then, just run `python3 github-repo.py`
 
-## Functionality Explanation
+## Usage
 
-1. Running the script (`python3 app.py`)
-2. You are asked where do you want the local repository to be created in
-(absolute path).
+`github-repo.py [org name [repo name]]`
 
-  ```terminal
-  [ABSOLUTE PATH]
-  (for example: /home/jack/Desktop)
-  (paths are case sensitive)
-  
-  > /home/mectos/Downloads
-  ```
+* default `repo_name` is actual directory name
+* `...` as `'org name'` mean interactive choice
 
-3. You are asked how do you want to name your repository.
-
-  ```terminal
-  [REPOSITORY NAME]
-  > new_repo
-  ```
-
-4. Given that there were no errors in the process,
-a new repository will be created both in GitHub and locally.
-
-  ```terminal
-  You have successfully created the repository new_repo
-  Both locally and in Github.
-  The local repository absolute path is /home/mectos/Downloads/new_repo
-  ```
-
+``````
+./github-repo.py 'org name'
+./github-repo.py ...
+./github-repo.py 'org name' repo_name
+./github-repo.py ... repo_name
+``````
 
 ## Tip
 
@@ -70,10 +54,18 @@ Create an alias for it in your `.zshrc` or `.bashrc`.
 For example, in my case I created this:
 
 ```zsh
-alias repo="python3 ~/github/automated-repo-creation/app.py"
+alias gh-repo="python3 ~/lib/github-repo-autocreate/github-repo.py"
 ```
 
-So now whenever I type `repo` in my terminal
+or
+
+```zsh
+cd ~/.local/bin
+ln -s ~/lib/github-repo-autocreate/github-repo.py gh-repo
+```
+
+
+So now whenever I type `gh-repo` in my terminal
 I'm able to create the repo in just a few seconds.
 
 ## Thanks
