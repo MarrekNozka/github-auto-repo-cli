@@ -20,10 +20,10 @@ def create_repo(repo_name, org_name=None):
             return user.create_repo(repo_name)
         else:
             orgs = {}
-            orgs[f"{user.name}\t\t\t{user.html_url}"] = user
+            orgs[f"{user.name:24} {user.html_url}"] = user
 
             for org in user.get_orgs():
-                orgs[f"{org.name}\t\t\t{org.html_url}"] = org
+                orgs[f"{org.name:24} {org.html_url}"] = org
 
             # create repo in org by choice
             if type(org_name) is bool and org_name:
@@ -41,11 +41,10 @@ def create_repo(repo_name, org_name=None):
 
             # create repo in org by name
             if type(org_name) is str:
-                for name, org in orgs.items:
-                    if name in org_name:
+                for name, org in orgs.items():
+                    if org_name in name:
                         return org.create_repo(repo_name)
-                    else:
-                        None
+                return None
 
     except BadCredentialsException:
         print("\nOops, something is wrong with your credentials.")
@@ -95,7 +94,11 @@ USAGE:
         repo_name = argv[2]
 
     print(f"Repo name = '{repo_name}'")
-    print(f"Org  name = '{org_name}'")
+    if type(org_name) is str:
+        display_org_name = org_name
+    else:
+        display_org_name = ">>interactive select<<" if org_name else "<GitHub nick>"
+    print(f"Org  name = '{display_org_name}'")
 
     answer = input("Continue? [Y/n] > ")
     if answer == "" or "Y" == answer.upper():
@@ -107,22 +110,19 @@ USAGE:
             print(f"      Git URL: {repo.ssh_url}")
             print()
 
+            print(">>> git init")
             run(["git", "init"])
             origin_name = input("Type origin branch name [origin] > ")
             if not origin_name:
                 origin_name = "origin"
-            run(
-                [
-                    "git",
-                    "remote",
-                    "add",
-                    origin_name,
-                    repo.ssh_url if default_method == "ssh" else repo.clone_url,
-                ]
-            )
+
+            origin_url = repo.ssh_url if default_method == "ssh" else repo.clone_url
+            print(f"\n>>> git remote add {origin_name} {origin_url}")
+            run(["git", "remote", "add", origin_name, origin_url])
             print()
             print("Maybe you want type ...")
             print("\tgit add .")
+            print("\tgit commit -m Init")
             print(f"\tgit push -u {origin_name} main")
     else:
         print("Canceled")
