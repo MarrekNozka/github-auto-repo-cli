@@ -64,16 +64,16 @@ if __name__ == "__main__":
     if "-h" in argv[1:] or "--h" in argv[:1]:
         print(
             f"""
-{argv[0]} [org name [repo name]]
+{argv[0]} [org_name|... [repo_name]]
 
 USAGE:
 
 * default repo_name is actual directory name
-* ... in 'org name' mean interactive choice
+* ... as 'org_name' mean interactive choice
 
-{argv[0]} 'org name'
+{argv[0]} 'org_name'
 {argv[0]} ...
-{argv[0]} 'org name' repo_name
+{argv[0]} 'org_name' repo_name
 {argv[0]} ... repo_name
 """
         )
